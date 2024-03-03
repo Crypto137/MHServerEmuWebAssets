@@ -1,0 +1,34 @@
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+		width: 980,
+		height: 640,
+        controls: true,
+        progress: true,
+        history: false,
+        center: true,
+		keyboard: false,
+		mouseWheel: false,
+		touch: false,
+
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+		transitionSpeed: 'fast',
+		backgroundTransition: 'none',
+		viewDistance: 2,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            //{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            //{ src: 'plugin/zoom-js/zoom.js', async: true },
+            //{ src: 'plugin/notes/notes.js', async: true }
+        ]
+    });
+
+</script>
