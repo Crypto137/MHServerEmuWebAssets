@@ -4,6 +4,7 @@
  * By Hakim El Hattab, http://hakim.se
  */
 @import url(../../lib/font/source-sans-pro/source-sans-pro.css);
+@import url(../../lib/font/BebasNeue-Regular/BebasNeue-Regular.css);
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
   color: #222; }
 
@@ -11,7 +12,8 @@ section.has-light-background, section.has-light-background h1, section.has-light
  * GLOBAL STYLES
  *********************************************/
 body {
-    background: #00131a url(../../images/background.jpg) repeat-x; }
+    background: #00131a url(../../images/background.jpg) no-repeat;
+    background-size: cover; }
 
 .reveal {
   font-family: "Source Sans Pro", Helvetica, sans-serif;
@@ -45,10 +47,8 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #fff;
-  font-family: "Source Sans Pro", Helvetica, sans-serif;
-  font-weight: 600;
+  font-family: "Bebas Neue";
   line-height: 1.2;
-  letter-spacing: normal;
   text-transform: uppercase;
   text-shadow: none;
   word-wrap: break-word; }

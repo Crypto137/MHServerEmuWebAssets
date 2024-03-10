@@ -2,7 +2,7 @@
 layout: post
 ---
 
-### Server Commands
+## Server Commands
 
 You can type **!commands** in the chat window to see a list of available server commands. Here are some commands that may be useful:
 
