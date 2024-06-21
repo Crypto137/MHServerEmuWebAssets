@@ -8,9 +8,9 @@ You can type **!commands** in the chat window to see a list of available server 
 
 **!tower** - Teleports you to Avengers Towers.
 
-**!doop** - Teleports you to DOOP SPACE NINE.
+**!region warp [pattern]** - Teleports you to the region matching the provided search pattern.
 
-**!cow** / **!bovineheim** - There is no cow level.
+**!item drop [pattern]** / **!item give [pattern]** - Drops or adds to your inventory the item that matches the provided search pattern.
 
 **!tp x100 y100 z100** - Teleports you within your current region. Replace numbers with coordinates you want to go to.
 
