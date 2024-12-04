@@ -2,18 +2,18 @@
 layout: post
 ---
 
-## New In Version 0.3.0
+## New In Version 0.4.0
 
-* Many powers that deal damage directly now work consistently.
+* You can now play through the main story from beginning to end.
 
-* Most enemies and friendly NPCs now have fully-functioning AI.
+* Region population now spawns dynamically based on where players are and what dynamic events are happening.
 
-* Team-ups and vanity pets can now be summoned. Team-ups will join you in combat.
+* Many of the scripted game modes (Midtown Patrol, X-Defense, S.H.I.E.L.D. Holo-Sim, Danger Room, etc.) are now playable.
 
-* Heroes and team-ups now start at level 1 and can gain experience and level up all the way to 60.
+* You can now do mission-based endgame activities, including Legendary Quests, Shared Quests, and Influence Missions.
 
-* Loot dropping from enemies is now rolled using the original loot tables.
+* Items now have random affixes.
 
-* Your progress, including levels and inventory contents, will now persist when transferring between regions or logging out.
+* More loot types are now dropping, including orbs and credits.
 
-* Stash tabs can now be purchased and customized.
+* You can now buy items from and level up vendors across the entire game.
