@@ -1,37 +1,32 @@
 @import url(../font/BebasNeue-Regular/BebasNeue-Regular.css);
 
-html {
-    overflow-y: visible;
-}
-
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
+
     background: #00131a url(../images/background.jpg) no-repeat;
     background-size: auto;
-    overflow: hidden;
-}
-
-a {
-    text-decoration: none;
 }
 
 h1 {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    width: 100%;
+    text-align: center;
+
+    background-color: rgba(0, 0, 0, 0.15);
+    color: white;
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 48px;
-
-    color: white;
-    text-align: center;
-
-    background-color: rgba(0, 0, 0, 0.15);
     text-shadow: black 2px 2px;
-    width: 100%;
-    display: block;
+}
 
-    margin-top: 12px;
-    margin-bottom: 12px;
+a {
+    text-decoration: none;
 }
 
 .content-container {
@@ -39,27 +34,24 @@ h1 {
     height: 644px;
 }
 
-.top-slide-container {
-    margin: 4px;
-}
-
-.bottom-slide-container {
+.slide-container {
     margin: 4px;
 }
 
 .slide {
+    display: flex;
+    float: left;
+    margin: 2px;
+    align-items : center;
+    justify-content: center;
+    overflow: hidden;
+
     border: 2px solid #00aaff;
     border-radius: 4px;
-    color: #d7d7d7;
-    overflow: hidden;
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
-    display : flex;
-    align-items : center;
-    justify-content: center;
-    float: left;
-    margin: 2px;
+    color: #d7d7d7;
 }
 
 .slide:hover {
@@ -77,16 +69,13 @@ h1 {
     height: 240px;
 }
 
-.slide span {
-    font: 24px Verdana;
-    text-align: center;
-}
-
 .slide-text-container {
+    align-self: flex-end;
     width: 100%;
     height: auto;
-    padding: 8px;
+    padding: 4px 8px;
+    
     background-color: rgba(0, 0, 0, 0.40);
+    font: 24px Verdana;
     text-shadow: black 2px 2px;
-    align-self: flex-end;
 }
