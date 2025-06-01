@@ -47,6 +47,7 @@ a {
     border: 2px solid #00aaff;
     border-radius: 4px;
     background-size: cover;
+    background-position: 50%;
     color: #d7d7d7;
 }
 
