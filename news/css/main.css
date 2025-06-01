@@ -42,15 +42,11 @@ a {
     display: flex;
     float: left;
     margin: 2px;
-    align-items : center;
-    justify-content: center;
     overflow: hidden;
 
     border: 2px solid #00aaff;
     border-radius: 4px;
     background-size: cover;
-    background-position: 50%;
-    background-repeat: no-repeat;
     color: #d7d7d7;
 }
 
