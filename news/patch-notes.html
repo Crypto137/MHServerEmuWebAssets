@@ -3,139 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHServerEmu 0.8.0 Patch Notes</title>
+    <title>MHServerEmu 0.8.1 Patch Notes</title>
     <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
 <div class="content-container">
-<h1>MHServerEmu 0.8.0 Patch Notes</h1>
+<h1>MHServerEmu 0.8.1 Patch Notes</h1>
 
 <h2>General</h2>
 <ul>
-	<li>Implemented the Fire & Ice PvP mode.</li>
+	<li>The server has received a significant optimization pass focused primarily on physics, collision detection, and path finding. Overall it should result in noticeably more efficient memory management, reducing the frequency and length of garbage collection pauses server-side.</li>
+	<li>Achievements have received a polishing pass.</li>
 	<ul>
-		<li>This mode can be enabled using the eGTV_PVPEnabled global live tuning variable.</li>
+		<li>Merged data from AchievementContextMap.json and AchievementPartyVisible.json into AchievementInfoMap.json.</li>
+		<li>Added patches to fix various bugs and make legacy achievements earnable again.</li>
+		<li>Added Russian localization for achievements.</li>
 	</ul>
-	<li>Implemented cell hotspots (e.g. lava in the Muspelheim raid, platforms during the Red Onslaught encounter in the Axis raid).</li>
-	<li>Implemented damage transfer for twin boss spawns.</li>
-	<li>LiveTuning files are now loaded from their own subdirectory located in Data/Game/LiveTuning.</li>
-	<li>Frontend connection rate limiting is now traffic-based instead of packet-based. This should result in fewer disconnects for unstable connections, such as over Wi-Fi.</li>
-	<li>Account downloading is now rate limited for regular users to once per 30 minutes with a burst of up to 5 downloads. This restriction is not applied to moderator and admin accounts.</li>
-	<li>Added server-side email validation when creating accounts with behavior similar to what the client does on the login screen.</li>
-	<li>The HideSensitiveInformation config setting now uses hashing instead of masking to hide exact IP addresses from logs.</li>
-	<li>!boost commands now continue applying after switching heroes.</li>
-	<li>Implemented !boost invulnerable and !boost mana commands.</li>
-	<li>Continued to incrementally improve optimization.</li>
+	<li>Implemented autosaving.</li>
+	<ul>
+		<li>Player data is now autosaved every 15 minutes while a player remains in the same game instance.</li>
+		<li>The autosave interval can be adjusted using the new AutosaveIntervalMinutes configuration setting. Autosaves can be disabled by setting it to 0.</li>
+		<li>Autosaves supplement the existing system that saves player data on game instance transfers.</li>
+	</ul>
+	<li>Implemented the Ultimate Prestige system.</li>
+	<ul>
+		<li>Ultimate Prestige allows you to reset your Prestige level after reaching Cosmic Level 60.</li>
+		<li>You can enable Ultimate Prestige by using the new EnableUltimatePrestige server configuration setting.</li>
+		<li>When enabled, Ultimate Prestige can be activated by typing the new !ultimateprestige activate command in-game.</li>
+		<li>You can see the number of times Ultimate Prestige has been activated for the current hero by typing the !ultimateprestige level command.</li>
+		<li>Please note that this is a completely custom system that is fully separate from Gazillion's Omega Prestige that was planned to be introduced in game version 1.53.</li>
+	</ul>
+	<li>Implemented dynamic allocation for data-only entries in the property info table. This change makes it easier to support multiple versions of the game.</li>
+	<li>The !account userlevel command now works with user level names in addition to numerical values (e.g. !account userlevel test1@test.com admin is now equivalent to !account userlevel test1@test.com 2).</li>
 </ul>
 
 <h2>Social</h2>
 <ul>
-	<li>Implemented matchmaking for match regions.</li>
-	<li>Implemented the player trade system.</li>
-	<li>Implemented guilds (supergroups).</li>
+	<li>Implemented a grace period before removing players from their current region after leaving a party.</li>
+	<li>Implemented map discovery data synchronization between party members.</li>
+	<li>Player names can now be blacklisted similarly to guild names by adding them to a file named PlayerNameBlacklist.txt located in the Data folder.</li>
 	<ul>
-		<li>Specific guild names can be blacklisted by creating a file named GuildNameBlacklist.txt in the Data folder and adding the names you want to blacklist to it.</li>
-		<li>There is no guild persistence on server shutdown when JsonDBManager is enabled.</li>
+		<li>Player name blacklist can be reloaded using the new !server reloadplayernameblacklist command.</li>
 	</ul>
-	<li>Renamed the LogTells config setting to LogPrivateChatRooms and made it apply to party and guild chat in addition to tells.</li>
-</ul>
-
-<h2>Regions</h2>
-<ul>
-	<li>Implemented transition destination selection. This is used to select floors when interacting with the elevator in Avengers Tower (Invaded) in Chapter 10.</li>
-	<li>Death release and power teleports now ignore player and party difficulty preferences and always use the current region's difficulty tier.</li>
-	<li>Runtime entity properties (e.g. current resource amounts) now migrate between game instances if they should.</li>
-	<li>Summon and buyback inventories now migrate between game instances.</li>
-	<li>Enabled the "Not Droppable" affix.</li>
+	<li>Implemented a new chat tip broadcast system.</li>
 	<ul>
-		<li>Items with this affix can be traded only via the player trade system.</li>
-		<li>This affix will be automatically applied to existing items where needed when you log in for the first time after updating.</li>
+		<li>When enabled, the server will periodically broadcast tip messages loaded from a text file to all connected players.</li>
+		<li>This system can be enabled and configured using the following configuration settings: EnableChatTips, ChatTipFileName, ChatTipIntervalMinutes, and ChatTipShuffle.</li>
 	</ul>
 </ul>
 
 <h2>Loot</h2>
 <ul>
-	<li>Heroes now need to be "combat active" to receive loot and experience rewards for defeating most enemies. Heroes are considered to be "combat active" if they have attacked a hostile target within the last 30/60 seconds depending on the game mode.</li>
-	<li>Entities flagged as SpawnLootForMissionContributors now spawn loot for contributor players outside of the "nearby" range.</li>
-	<li>Implemented orb effect reduction based on shrinkage progress.</li>
-	<li>Implemented additional loot drop event types: OnHealthBelowPctHit, OnHealthBelowPct, OnHit, and OnDamagedForPctHealth.</li>
-</ul>
-
-<h2>MTX Store</h2>
-<ul>
-	<li>Implemented Eternity Splinter to G conversion via the "Add G" panel in the store UI.</li>
-	<li>The !store convertes command can now convert a user provided number of Eternity Splinters.</li>
-	<li>Added a new config setting called ESToGazillioniteConversionStep, which can be used to specify an Eternity Splinter to G conversion step and reduce G loss to rounding errors.</li>
-	<li>Implemented store bundles.</li>
-	<ul>
-		<li>Bundle web assets can now be served from a customizable CDN URL using the following config settings: RewriteOriginalBundleUrls, BundleInfoUrl, and BundleImageUrl.</li>
-	</ul>
-	<li>Implemented gifting.</li>
-	<ul>
-		<li>Unlike the original Gazillion implementation, players can now send gifts only to nearby players, similar to trade. This was done to reduce potential abuse cases and for technical reasons.</li>
-		<li>Original game settings used to limit gifting are applied and can be configured: GiftingEnabled, GiftingAccountAgeInDaysRequired, GiftingAvatarLevelRequired, and GiftingLoginCountRequired.</li>
-		<li>Added two additional custom limit settings: GiftingOmegaLevelRequired and GiftingInfinityLevelRequired.</li>
-	</ul>
-	<li>Removed the MHServerEmu.Billing project.</li>
-	<ul>
-		<li>If you have overrides for the Billing section in your ConfigOverride.ini, you will need to rename the section to MTXStore.</li>
-		<li>Store page URL settings in the MTXStore section no longer include the "Store" prefix.</li>
-	</ul>
-	<li>Overhauled catalog files.</li>
-	<ul>
-		<li>Catalog.json and CatalogPatch.json now have the same structure.</li>
-		<li>Catalog entries are now loaded from all JSON files with the "Catalog" prefix located in Data/Game/MTXStore. This functions similarly to live tuning and data patches.</li>
-		<li>Additional catalog files can override existing catalog entries from files parsed first by using the same SKU id. Catalog files are parsed in alphabetical order.</li>
-		<li>Removed ApplyCatalogPatch and OverrideStoreUrls config settings.</li>
-	</ul>
-	<li>Implemented Founders Pack permanent buffs.</li>
-	<ul>
-		<li>The original Ultimate Pack permanent buff can be unlocked using the ConsumablePermaBuff item. This item cannot be acquired in normal gameplay.</li>
-	</ul>
-	<li>Restored the label that says "Owned" when you try to buy a costume that you already have.</li>
+	<li>Added a data patch to restore the SpecialsCostumesCardsTokens loot table, which contains fortune cards, hero tokens, and costumes.</li>
+	<li>Implemented the 250 G reward for reaching level 15 for the first time.</li>
+	<li>Implemented mission reward scaling. This includes scaling rewards in open missions down based on contribution, as well as scaling experience rewards up for all missions based on various factors (difficulty, avatar synergy, etc.).</li>
+	<li>Implemented stacking currency bonuses.</li>
+	<li>Implemented gem socketing. This will remain unused until version 1.48 is fully supported, because StarkTech cubes were made unavailable in later versions.</li>
+	<li>Implement mission reward properties. This will remain unused until version 1.48 is fully supported, because reward properties were removed from missions in later versions.</li>
 </ul>
 
 <h2>Web Frontend</h2>
 <ul>
-	<li>Overhauled the web frontend implementation to make it easier to add and modify endpoints.</li>
+	<li>Made improvements to allow the dashboard to be used as a server for store assets:</li>
 	<ul>
-		<li>As part of this overhaul, the MHServerEmu.Auth project has been renamed to MHServerEmu.WebFrontend. If you have overrides for the Auth section in your ConfigOverride.ini, you will need to rename the section to WebFrontend.</li>
+		<li>Implemented recursive file loading.</li>
+		<li>Added proper MIME types when serving images.</li>
 	</ul>
-	<li>All regular web API endpoints are now fully JSON-based.</li>
+	<li>Implemented restricted web API endpoints that require an API key to access.</li>
 	<ul>
-		<li>All endpoints now always return structured data in the JSON format. Specifying ?outputFormat= no longer does anything.</li>
-		<li>POST requests to the /AccountManagement/Create endpoint should now contain a JSON object with Email, PlayerName, and Password fields.</li>
-		<li>Removed HTML representations of individual endpoints.</li>
+		<li>API keys can be generated using the new !webapi generatekey command.</li>
+		<li>API keys are saved to Data/Web/ApiKeys.json. Keys can be reloaded from this file at runtime using the new !webapi reloadkeys command.</li>
+		<li>API keys are not logged, the only way to access generated keys is by reading them from the ApiKeys.json file.</li>
+		<li>Each API key has a specific access type assigned to it (e.g. AccountManagement), which limits its functionality to a specific domain.</li>
+		<li>API keys need to be provided when making requests to restricted endpoints by adding them as an Authorization HTTP request header with a Bearer scheme (e.g. Authorization: Bearer FFFFFFFF).</li>
 	</ul>
-	<li>Implemented a new feature - Web Dashboard.</li>
+	<li>A new set of restricted endpoints for account management has been added:</li>
 	<ul>
-		<li>The dashboard serves as the unified frontend for all other endpoints accessible from a web browser.</li>
-		<li>It can be toggled using the EnableDashboard config setting.</li>
-		<li>Dashboard files are loaded during server startup from Data/Web/Dashboard. This directory can be customized using the DashboardFileDirectory config setting.</li>
-		<li>The dashboard can be reloaded at runtime using the new !server reloaddashboard command.</li>
-		<li>By default, the dashboard is served from http://localhost:8080/Dashboard/. You can customize the URL using the DashboardUrlPath config setting.</li>
-		<li>If you are exposing endpoints on a public server via a reverse proxy, your API paths may differ from the default configuration. In this case you need to specify the origin suffix in config.js in the Dashboard directory. For example, if you expose server status via https://example.com/api/ServerStatus, you need to set the origin suffix to /api.</li>
+		<li>/AccountManagement/SetPlayerName</li>
+		<li>/AccountManagement/SetPassword</li>
+		<li>/AccountManagement/SetUserLevel</li>
+		<li>/AccountManagement/SetFlag</li>
+		<li>/AccountManagement/ClearFlag</li>
 	</ul>
-	<li>Account creation requests now return operation result codes instead of strings.</li>
-	<li>Implemented login rate limiting. This can configured using the following settings: EnableLoginRateLimit, LoginRateLimitCostMS, and LoginRateLimitBurst.</li>
 </ul>
 
 <h2>Bug Fixes</h2>
 <ul>
-	<li>Fixed an issue that prevented the completion of the Show 'em Who's Boss legendary mission from counting for the Legend of Industry City achievement.</li>
-	<li>Fixed an issue with party id replication that caused some client-side validation to not work correctly until the player transferred to another game instance.</li>
-	<li>Fixed an issue where only one instance of powers that have multiple instances would be replicated to the client when a previously known entity would enter proximity.</li>
-	<li>Fixed an issue where powers were not being completely unassigned when exiting world with more than one instance of the same power assigned.</li>
-	<li>Fixed an issue that caused procs granted by equipment to be assigned twice when an agent (avatar or team-up) entered world. This allowed these agents to retain granted procs even after the item that granted them was unequipped.</li>
-	<li>Fixed an issue where nullifiers in the Axis raid were not changing state correctly, preventing them from charging.</li>
-	<li>Fixed an issue where proc powers that use a caster override were not correctly unassigned from the caster specified by the override.</li>
-	<li>Fixed an issue where the subway transition in Upper East Side in Chapter 4 did not work and displayed a “The destination region is still downloading” message.</li>
-	<li>Fixed an issue that allowed players to proceed to upper floors of Avengers Tower (Invaded) in Chapter 4 without completing the current floor’s objective.</li>
-	<li>Fixed a game instance crash that could occur when purchasing items with unlimited quantities from vendors, and the destination inventory was full.</li>
-	<li>Fixed an issue where concurrent access to uncached data in the AchievementDatabase could corrupt its internal state, resulting in game instances crashing whenever a player logged in.</li>
-	<li>Fixed an issue where subcommands in command groups were not case insensitive as intended.</li>
-	<li>Fixed an issue that prevented the Fire and Ice account mission from starting after completing the Battle for Asgard mission in Chapter 9.</li>
-	<li>Fixed an issue where the bosses during the Sisters of Magma encounter in the Muspelheim raid could become invulnerable with no health remaining.</li>
+	<li>Added a patch to fix the RaftNPEQuinjetKismetController mission and prevent a soft lock when a player gets disconnected during the quinjet cutscene.</li>
+	<li>Fixed an issue where supergroups would not be correctly replicated to game instances when there was a duplicate login for the only member of a supergroup in a game instance hosting a hub region.</li>
+	<li>Fixed an issue where picking up an orb that has almost disappeared as a lower level hero would result in a negative level value being used for calculating the experience reward.</li>
+	<li>Fixed an issue where internal per-avatar PvP match counters were incremented when visiting regions that use PvP metagames without the IsPvP flag.</li>
+	<li>Disabled primary resource migration between game instances as a workaround for hero specific mechanics not working correctly (e.g. Human Torch's Heat).</li>
+	<li>Fixed an issue where items that replace themselves with other items on interaction would not count for achievement progress if the replacement item stacked with an existing item.</li>
+	<li>Fixed an issue that caused some session-specific data to persist on logout while running the server with JsonDBManager enabled.</li>
 </ul>
 
 <a href="#" onclick="myApi.CloseNewsUrl()">
