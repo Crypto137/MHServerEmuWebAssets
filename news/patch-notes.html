@@ -3,58 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHServerEmu 1.0.0 Patch Notes</title>
+    <title>MHServerEmu 1.0.1 Patch Notes</title>
     <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
 <div class="content-container">
-<h1>MHServerEmu 1.0.0 Patch Notes</h1>
+<h1>MHServerEmu 1.0.1 Patch Notes</h1>
 
 <h2>General</h2>
 <ul>
-	<li>Account data from 0.x versions is no longer supported.</li>
+	<li>Did a minor optimization pass.</li>
+	<li>Disabled EventScheduler performance warnings in Release configuration builds.</li>
+	<li>Overhauled the login queue:</li>
 	<ul>
-		<li>This applies to both SQLite and JSON database backends.</li>
-		<li>If you try to load a 0.x SQLite database file, it will renamed with the .old extension added (e.g. Account.db.old), and a new database file will be created.</li>
-		<li>Legacy 0.x database files are still usable with 0.x versions of MHServerEmu.</li>
+		<li>Improved the accuracy of the place in line value displayed to clients.</li>
+		<li>Clients that disconnect and reconnect within 10 minutes of passing the login queue are now put in the front. This is allowed once per complete queue pass to prevent abuse.</li>
+		<li>Reduced the default value of the MaxLoginQueueClients setting to 8192.</li>
+		<li>Added the BypassLoginQueue account flag that can be used to allow specific accounts to skip the login queue.</li>
 	</ul>
-	<li>AutoUnlockAvatars and AutoUnlockTeamUps config settings are now disabled by default.</li>
-	<li>Store purchases can now be made during the tutorial if neither AutoUnlockAvatars nor AutoUnlockTeamUps config settings are enabled.</li>
-	<li>The !item creditchest command has been adjusted:</li>
+	<li>Whitelist mode can now be toggled at runtime using the new !server whitelist command. The initial toggle state is loaded from Config.ini as before, and toggling it at runtime using the command does not modify Config.ini.</li>
+	<li>Implemented ProfileServerFrame Unreal console command. This can be used by server administrators to investigate server performance issues in-game.</li>
+	<li>The DisableMissionXPBonuses setting now affects only property-based experience bonuses (e.g. boosts, hero synergies).</li>
+	<li>Added PvP matchmaking buckets for 1v1/2v2/3v3/4v4.</li>
 	<ul>
-		<li>The command is now disabled by default. It can be enabled using the new EnableCreditChestConversion config setting.</li>
-		<li>Conversion ratio can now be adjusted using the new CreditChestConversionMultiplier config setting.</li>
+		<li>These are accessible via a new set of chat commands: !pvp 1v1, !pvp 2v2, !pvp 3v3, !pvp 4v4.</li>
+		<li>The standard 5v5 PvP queue is now also accessible via the !pvp 5v5 command.</li>
 	</ul>
-	<li>Mission experience bonuses can now be disabled using the new DisableMissionXPBonuses config setting to imitate pre-0.8.1 behavior.</li>
-	<li>Player limits can now be enabled for hub regions using the new EnableTownPlayerLimit config setting.</li>
+</ul>
+
+<h2>Items</h2>
+<ul>
+	<li>Expanded the SpecialsCostumesCardsTokens loot table:</li>
+	<ul>
+		<li>Special drops may now come from a much wider variety of sources across the entire game, similarly to event drops.</li>
+		<li>The loot table now includes Fortune Card Mark 2-6 as potential drops. The relative drop rate of Fortune Cards compared to hero tokens and costumes remains unchanged.</li>
+	</ul>
+	<li>All variants of The Omega Drive artifact can now drop during the Operation Omega event.</li>
+	<li>Implemented event-specific daily login gifts.</li>
+	<li>Implemented custom loot cooldown channel mappings to fix issues with legacy event drops. Custom mappings are loaded from Data/Game/LootCooldownChannels.json.</li>
+	<li>Added a short cooldown to stacking boosts to mitigate issues caused by spam interacting with them.</li>
+	<li>Legacy boost exchange vendors are now hidden in the default server configuration.</li>
 </ul>
 
 <h2>Live Tuning</h2>
 <ul>
-	<li>Global live tuning variables have been moved out of LiveTuningData.json into a separate file named LiveTuningDataGlobal.json by default.</li>
-	<li>The following global live tuning variables are now set to 1.0 by default (down from 1.5):</li>
+	<li>When Live Tuning is loaded, the server will now apply event-defined settings for each calendar date based on a pre-defined schedule. This can be toggled using the new EnableLiveTuningEvents setting.</li>
+	<li>The server will now also automatically reload Live Tuning data when the daily mission reset happens (10:00 UTC +0) to refresh event settings. This can be toggled using the new AutoRefreshLiveTuning.</li>
+	<li>A list of active events is printed in chat in a secondary message of the day when you log in and when the Live Tuning data is reloaded.</li>
+	<li>Live Tuning events are defined in the Events.json and EventSchedule.json files located in Data\Game\LiveTuning. You can define custom events by creating files named EventsOverride.json and EventScheduleOverride.json in the same folder. Overrides completely replace the default data then they are loaded, so be sure to copy default events to your overrides if you want to keep them.</li>
+	<li>The following events are active in the default schedule:</li>
 	<ul>
-		<li>eGTV_XPGain</li>
-		<li>eGTV_LootDropRate</li>
-		<li>eGTV_LootRarity</li>
-		<li>eGTV_LootRarity</li>
+		<li>Primary Weekly Rotation</li>
+		<ul>
+			<li>Cosmic Chaos</li>
+			<li>Odin's Bounty</li>
+			<li>Operation Omega</li>
+			<li>Mystic Mayhem</li>
+			<li>A.R.M.O.R. Incursion</li>
+		</ul>
+		<li>Secondary Weekly Rotation</li>
+		<ul>
+			<li>Heroes for Hire</li>
+			<li>The Wealth of Kings County</li>
+			<li>Daredevil / Defenders</li>
+		</ul>
+		<li>Day of Week Specific</li>
+		<ul>
+			<li>Midtown Madness (Monday)</li>
+		</ul>
+		<li>Special Dates</li>
+		<ul>
+			<li>Australia Day (January 25-26)</li>
+			<li>Lunar New Year (one week beginning on the first day of the Chinese lunisolar calendar)</li>
+			<li>Valentine's Day (February 13-19)</li>
+			<li>St. Patrick's Day (March 16-22)</li>
+			<li>April Fools' Day (April 1)</li>
+			<li>Marvel Heroes Anniversary (June)</li>
+			<li>End of Summer (August 25-31)</li>
+			<li>Halloween (October 26 – November 1)</li>
+			<li>Winter Holiday (December 20 – January 2)</li>
+		</ul>
 	</ul>
-	<li>Implemented the eRTV_PlayerLimit region live tuning variable.</li>
+	<li>The following content that was previously always available is now event-specific:</li>
+	<ul>
+		<li>Cosmic Chaos</li>
+		<ul>
+			<li>Moondragon vendor NPC in Avengers Tower</li>
+		</ul>
+		<li>Odin's Bounty</li>
+		<ul>
+			<li>Odin's Bounty chest drops in S.H.I.E.L.D. Holo-Sim</li>
+		</ul>
+		<li>Operation Omega</li>
+		<ul>
+			<li>S.H.I.E.L.D. Omega Access Files reward for completing Shared Quests</li>
+			<li>S.H.I.E.L.D. Holo-Sim daily missions</li>
+			<li>S.H.I.E.L.D. vs HYDRA mission</li>
+			<li>Rose Solomon and Baron Von Lind buffer NPCs in Avengers Tower</li>
+			<li>Agent Dum Dum Dugan vendor NPC in Avengers Tower</li>
+		</ul>
+		<li>Mystic Mayhem</li>
+		<ul>
+			<li>Infernal Limbo game mode</li>
+			<li>Strike on Limbo mission</li>
+			<li>Legendary Mystic Scroll drops</li>
+		</ul>
+		<li>A.R.M.O.R. Incursion</li>
+		<ul>
+			<li>A.R.M.O.R. Research Drives reward for completing Shared Quests</li>
+			<li>A.R.M.O.R. Defender mission</li>
+			<li>Jocasta vendor NPC in Avengers Tower</li>
+		</ul>
+		<li>Daredevil / Defenders</li>
+		<ul>
+			<li>Orders from the Hand drops and their exchange using the event terminal</li>
+		</ul>
+		<li>The Wealth of Kings County</li>
+		<ul>
+			<li>Bundles of Cash drops</li>
+			<li>Industry City Patrol daily missions</li>
+		</ul>
+		<li>Anniversary</li>
+		<ul>
+			<li>Bozhe Moi! mission</li>
+		</ul>
+	</ul>
+	<li>Implemented Live Tuning variables:</li>
+	<ul>
+		<li>eWETV_Visible</li>
+		<li>eMTV_EventInstance</li>
+	</ul>
+	<li>Vendor loot tables can now be hot swapped using Live Tuning. To do this, add VendorInventoryEntryPrototype instances to a VendorTypePrototype with data patches, and then toggle loot tables via Live Tuning.</li>
 </ul>
 
-<h2>Web Frontend</h2>
+<h2>Web API</h2>
 <ul>
-	<li>Added proper MIME types for .xml and .json files served by the web dashboard.</li>
-	<li>Improved visuals for the Eternity Splinter conversion UI and bundle information pages.</li>
+	<li>Adjusted game performance metrics to match in-game data:</li>
+	<ul>
+		<li>UpdateTime renamed to ProcessingTime.</li>
+		<li>FrameTime now outputs the time interval between simulation updates, which should be around 50 ms under normal circumstances.</li>
+	</ul>
 </ul>
 
 <h2>Bug Fixes</h2>
 <ul>
-	<li>Fixed an issue where player data loss could happen if an autosave was triggered while a region transfer was happening.</li>
-	<li>Fixed an issue where a match region instance was created and never closed when an invite for the only player group expired (e.g. when using queue bypass).</li>
-	<li>Fixed an issue where the event infinite loop check limit would trigger when a game instance had higher than normal processing latency.</li>
-	<li>Fixed an issue where the !dance command was not usable for new accounts.</li>
-	<li>Fixed various typos and incorrect translations in the Russian achievement text.</li>
+	<li>Fixed an issue where difficulty tier restrictions were not applied to spawned mobs and summoned entities in some cases (e.g. Starktech Sentinels in the Axis raid).</li>
+	<li>Fixed an issue where the !item give command could not create some store-only costumes.</li>
+	<li>Re-enabled primary resource migration for heroes other than Human-Torch and Scarlet Witch.</li>
+	<li>Disabled secondary resource migration for Ant-Man and Blade.</li>
 </ul>
 
 <a href="#" onclick="myApi.CloseNewsUrl()">
