@@ -47,10 +47,10 @@
 
 <h2>Live Tuning</h2>
 <ul>
-	<li>When Live Tuning is loaded, the server will now apply event-defined settings for each calendar date based on a pre-defined schedule. This can be toggled using the new EnableLiveTuningEvents setting.</li>
-	<li>The server will now also automatically reload Live Tuning data when the daily mission reset happens (10:00 UTC +0) to refresh event settings. This can be toggled using the new AutoRefreshLiveTuning.</li>
+	<li>When Live Tuning is loaded, the server will now apply event-specific settings for each calendar date based on a pre-defined schedule. This can be toggled using the new EnableLiveTuningEvents setting.</li>
+	<li>The server will now also automatically reload Live Tuning data when the daily mission reset happens (10:00 UTC+0) to refresh event settings. This can be toggled using the new AutoRefreshLiveTuning setting.</li>
 	<li>A list of active events is printed in chat in a secondary message of the day when you log in and when the Live Tuning data is reloaded.</li>
-	<li>Live Tuning events are defined in the Events.json and EventSchedule.json files located in Data\Game\LiveTuning. You can define custom events by creating files named EventsOverride.json and EventScheduleOverride.json in the same folder. Overrides completely replace the default data then they are loaded, so be sure to copy default events to your overrides if you want to keep them.</li>
+	<li>Live Tuning events are defined in the Events.json and EventSchedule.json files located in Data\Game\LiveTuning. You can define custom events by creating files named EventsOverride.json and EventScheduleOverride.json in the same folder. Overrides completely replace the default data when they are loaded, so be sure to copy default events to your overrides if you want to keep them.</li>
 	<li>The following events are active in the default schedule:</li>
 	<ul>
 		<li>Primary Weekly Rotation</li>
@@ -148,7 +148,7 @@
 <h2>Bug Fixes</h2>
 <ul>
 	<li>Fixed a game instance crash that could happen when Omega / Infinity bonuses were applied to players in different game instances at the same time.</li>
-	<li>Fixed an issue where difficulty tier restrictions were not applied to spawned mobs and summoned entities in some cases (e.g. Starktech Sentinels in the Axis raid).</li>
+	<li>Fixed an issue where difficulty tier restrictions were not applied to spawned mobs and summoned entities in some cases (e.g. StarkTech Sentinels in the Axis raid).</li>
 	<li>Fixed an issue where the !item give command could not create some store-only costumes.</li>
 	<li>Re-enabled primary resource migration for heroes other than Human-Torch and Scarlet Witch.</li>
 	<li>Disabled secondary resource migration for Ant-Man and Blade.</li>
