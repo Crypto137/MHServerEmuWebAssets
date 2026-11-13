@@ -3,40 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHServerEmu 1.0.2 Patch Notes</title>
+    <title>MHServerEmu 1.0.3 Patch Notes</title>
     <link rel="stylesheet" href="css/popup.css">
 </head>
 <body>
 <div class="content-container">
-<h1>MHServerEmu 1.0.2 Patch Notes</h1>
+<h1>MHServerEmu 1.0.3 Patch Notes</h1>
 
 <h2>General</h2>
 <ul>
-	<li>The server backend has received changes to allow it to support multiple game versions via build configurations. Official support for additional game versions will be coming in 1.1.0 after version-specific features are implemented.</li>
-	<li>A large scale optimization pass has been done, focusing primarily on memory management, network IO, and game data initialization. This should result in faster server startups and garbage collection (GC) pauses happening less frequently. The work on mitigating GC related lag spikes will continue in future releases.</li>
-	<li>The logging system has been overhauled to mirror the assertion-style "verify" semantics that the client uses.</li>
-	<li>Implemented a new command - !server importdb. This command can be used to import accounts and guilds from a separate SQLite database file into the current one, effectively merging them together.</li>
+	<li>Retargeted the server to .NET 10. It now requires the .NET 10 runtime to run.</li>
+	<li>Updated libraries:</li>
+	<ul>
+		<li>Dapper to 2.1.89</li>
+		<li>System.Data.SQLite to 1.0.119</li>
+	</ul>
+	<li>When AutoUnlockTeamUps config setting is enabled, team-ups will now also be unlocked for existing accounts when they log in.</li>
+	<li>You now specify a level parameter for items generated using !item drop and !item give commands.</li>
 </ul>
-
 
 <h2>Bug Fixes</h2>
 <ul>
-	<li>Fixed an issue where Bonus Item Find (BIF) points were awarded for killing non-hostile entities (e.g. destructible props).</li>
-	<li>Fixed an issue where direct access portals (e.g. Classified Bovine Sector) could be reused to create additional instances of the destination region after disbanding a party.</li>
-	<li>Fixed an issue where the additional dash power charge from the Time Mastery effect of the Infinity system could be repeatedly applied to powers after a region transfer.</li>
-	<li>Fixed a game instance crash that would happen when using the !entity info command to inspect an entity without a power collection.</li>
-	<li>Fixed an issue where queued avatar power activation inputs would not be correctly cleared on power unassignment.</li>
-	<li>Fixed an issue where entities with invalid marker data would be spawned outside of cell bounds.</li>
-	<li>Fixed an issue where stale discovered entity references would be shared with party members when entering a region.</li>
-	<li>Fixed an issue where entities would not become resistant to crowd control status effects after being crowd controlled in some cases.</li>
-	<li>Fixed an issue with missile power targeting logic, which resulted in irregular behavior for some missile powers (e.g. Black Widow’s Rolling Grenades).</li>
-	<li>Fixed a rare full server crash that could occur when a client disconnected during the authentication process.</li>
-	<li>Fixed an issue where non-avatar live tuned vendor Eternity Splinter prices were not respected client-side.</li>
-	<li>Fixed an issue where enum fields with invalid asset references were interpreted as the default value rather than zero when parsing Calligraphy prototypes, resulting in incorrect behavior in some cases (e.g. wander AI state for Sauron and Vulture).</li>
-	<li>Fixed an issue where a tutorial popup was not displayed when a player equpped a Cosmic rarity item for the first time.</li>
-	<li>Fixed an issue where Scarlet Witch's Balance talent could trigger from hitting the boxes it summons.</li>
-	<li>Fixed an issue where restored Fantastic Four related achievements were not granting achievement points.</li>
-	<li>Fixed more typos and incorrect translations in the Russian achievement text.</li>
+	<li>Fixed an issue where running the server in a non-interactive container environment could cause excessive log spam and high CPU usage.</li>
+	<li>Fixed a server crash related to the Add G panel.</li>
+	<li>Fixed an issue where the sign bit of the Z axis would be applied to the X axis in Int21Vector3 encoded properties.</li>
 </ul>
 
 <a href="#" onclick="myApi.CloseNewsUrl()">
